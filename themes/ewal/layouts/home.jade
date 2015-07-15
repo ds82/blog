@@ -1,0 +1,15 @@
+extends layout
+
+block main
+  .posts
+    if collections.posts && collections.posts.length > 0
+      each post in collections.posts
+        .post-block
+          h3.post-date #{moment(post.date).format(site.dateFormat)}
+          h2.post-title
+            a(href='/'+post.path)!= post.title
+          div!= post.contents
+    else
+      h2= collections.posts.length
+      h2 there ain't no posts here, man
+
