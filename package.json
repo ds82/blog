@@ -7,6 +7,7 @@
     "jade": "^1.11.0",
     "metalsmith": "^1.7.0",
     "metalsmith-branch": "0.0.4",
+    "metalsmith-browser-sync": "^1.0.0",
     "metalsmith-collections": "^0.7.0",
     "metalsmith-layouts": "^1.0.0",
     "metalsmith-less": "^2.0.0",
@@ -20,7 +21,8 @@
     "metalsmith-excerpts": "^1.0.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "WATCH=1 node build.js"
   },
   "keywords": [],
   "author": "",

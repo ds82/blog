@@ -9,6 +9,7 @@ var collections = require('metalsmith-collections');
 var branch      = require('metalsmith-branch');
 var permalinks  = require('metalsmith-permalinks');
 var excerpts    = require('metalsmith-excerpts');
+var browserSync = require('metalsmith-browser-sync');
 var moment      = require('moment');
 
 var smith = metalsmith(__dirname);
@@ -35,6 +36,11 @@ smith
   }))
   .use(markdown())
   .use(excerpts())
+  .use(function (files, metalsmith, done) {
+    var metadata = metalsmith.metadata();
+    delete metadata.posts;
+    done();
+  })
   .use(collections({
     posts: {
       pattern: 'posts/**.html',
@@ -62,3 +68,16 @@ smith
     console.log(err || 'done');
   })
 ;
+
+if (process.env.WATCH) {
+smith.use(
+  browserSync({
+    server : 'public',
+    files  : ['build.js', 'source/**/*.md', 'themes/**/*.jade', 'themes/**/*.less']
+  })
+);
+}
+
+smith.build(function(err) {
+  console.log(err || 'done');
+});
