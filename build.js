@@ -10,6 +10,7 @@ var branch      = require('metalsmith-branch');
 var permalinks  = require('metalsmith-permalinks');
 var excerpts    = require('metalsmith-excerpts');
 var browserSync = require('metalsmith-browser-sync');
+var assets      = require('metalsmith-assets');
 var moment      = require('moment');
 
 var smith = metalsmith(__dirname);
@@ -64,9 +65,10 @@ smith
     moment: moment,
     directory: './themes/ewal/layouts'
   }))
-  .build(function(err) {
-    console.log(err || 'done');
-  })
+  .use(assets({
+    'source': './themes/ewal/public',
+    'destination': 'theme'
+  }))
 ;
 
 if (process.env.WATCH) {

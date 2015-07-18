@@ -6,6 +6,7 @@
   "devDependencies": {
     "jade": "^1.11.0",
     "metalsmith": "^1.7.0",
+    "metalsmith-assets": "^0.1.0",
     "metalsmith-branch": "0.0.4",
     "metalsmith-browser-sync": "^1.0.0",
     "metalsmith-collections": "^0.7.0",
