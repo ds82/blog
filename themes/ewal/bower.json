@@ -1,0 +1,25 @@
+{
+  "name": "metalsmit-theme-ewal",
+  "version": "0.0.1",
+  "homepage": "http://blog.dennis.io",
+  "description": "ewal theme for metalsmith",
+  "moduleType": [
+    "es6"
+  ],
+  "keywords": [
+    "metalsmith",
+    "theme",
+    "ewal"
+  ],
+  "authors": [
+    "Dennis Sänger <metalsmith-theme-ewal@mail.ds82.de>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
