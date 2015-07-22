@@ -24,7 +24,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "WATCH=1 node build.js"
+    "watch": "WATCH=1 node build.js",
+    "build": "node build.js",
+    "sync": "bin/sync.sh"
   },
   "keywords": [],
   "author": "",
