@@ -2,6 +2,7 @@
 title = "Die Steuererklärung ein bisschen automatisieren"
 date = 2026-10-08
 description = "Ein deutscher Beispielartikel: wie ich Belege für die Steuererklärung mit einem kleinen Skript sortiere."
+draft = true
 
 [taxonomies]
 tags = ["self-hosting"]
