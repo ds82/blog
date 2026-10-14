@@ -109,7 +109,7 @@ Symbolic operators and punctuation are mapped to the editor foreground (`#000001
 
 ### 8. Feeds, metadata and 404
 - `generate_feeds = true`, `feed_filenames = ["atom.xml"]`, `author = "Dennis Sänger"`, `taxonomies = [{ name = "tags", feed = true }]`.
-- The built-in Atom template is used if its output contains the full content and `<updated>`. Otherwise it is overridden with a copy in `themes/astro-kip/templates/atom.xml`. This is checked in task 3.6.
+- The built-in Atom template is used as-is: it already has the full content, the author from `author`, and `<updated>` (checked in task 3.6, and asserted by `check.sh`). There's no `atom.xml` override.
 - `base.html` writes the canonical link, the meta description (page Description, falling back to `config.description`), Open Graph title/description/URL/image, and the `<title>` as "<page title> · blog.dennis.io" (just "blog.dennis.io" on the home page).
 - `taxonomy_single.html` overrides the feed autodiscovery link to point at that Tag's Feed.
 - `generate_sitemap` stays on. `404.html` is a template written to `public/404.html`.

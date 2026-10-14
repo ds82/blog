@@ -26,7 +26,7 @@ The vocabulary used below (Post, Page, Draft, Tag, Description, Feed, Social ima
 - A favicon, and Social images for link previews: one default for the site, which a Post can override.
 - Code highlighting colored with the design tokens, in both Modes.
 - Client-side search using Zola's built-in search index (elasticlunr), on its own search page.
-- Two example Posts (one English, one German) that exercise the features, so the theme can be checked.
+- Example Posts that exercise the features (one English, one German, and a Draft that must never be published), so the theme can be checked.
 
 Out of scope:
 - hosting and deployment (CI, containers, DNS, TLS)
@@ -49,10 +49,10 @@ Deployment gets its own change later; this change ends at a `public/` folder tha
 ## Impact
 
 - New files in this repo:
-  - `zola.toml`, `content/`, `themes/astro-kip/` (templates, `sass/`, fonts, JS, icons, the highlighting theme), `scripts/check.sh`
+  - `zola.toml`, `content/`, `themes/astro-kip/` (templates, `sass/`, fonts, JS, icons, the highlighting theme), `scripts/check.sh`, `scripts/render-images.sh`
   - a `README.md` explaining how to build
   - `CONTEXT.md` (glossary) and `docs/adr/0001-post-urls-under-posts-prefix.md`
 - New tool dependency: the Zola CLI, pinned to 0.23.6 (installed at `~/.local/bin/zola`) and documented in the README. No Node, npm or Tailwind is needed.
-- ImageMagick (`convert`) is used once, by hand, to render the favicon and Social image PNGs from SVG sources. It is not part of the build.
+- ImageMagick (`convert`) is run by hand through `scripts/render-images.sh` to render the favicon and Social image PNGs. It is not part of the build.
 - Depends on the design system's generated `dist/css/theme.css` and `assets/fonts/` by copying them. Token changes later are re-copied by hand, as the design system's AGENTS.md says.
 - No existing code or specs are affected.
