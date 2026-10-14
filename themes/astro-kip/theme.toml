@@ -1,0 +1,8 @@
+name = "astro-kip"
+description = "Dennis Sänger's blog theme, built on his personal design system (AstroVista tokens, Outfit + Fira Code)."
+license = "MIT"
+min_version = "0.23.6"
+
+[author]
+name = "Dennis Sänger"
+homepage = "https://blog.dennis.io"

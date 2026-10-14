@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<article class="card surface">
+  <h1>{{ section.title | default(value="Posts") }}</h1>
+  <div class="prose">{{ section.content | safe }}</div>
+</article>
+{% endblock content %}

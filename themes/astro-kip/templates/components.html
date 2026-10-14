@@ -1,0 +1,24 @@
+{#- Shared components (Tera v2 components are registered globally). -#}
+
+{% component ak.date(d) -%}
+<time datetime="{{ d | date(format='%Y-%m-%d') }}">{{ d | date(format="%Y-%m-%d") }}</time>
+{%- endcomponent ak.date %}
+
+{% component ak.tags(page) -%}
+{% if page.taxonomies.tags %}
+<ul class="tag-list" aria-label="Tags">
+  {%- for tag in page.taxonomies.tags %}
+  <li><a class="badge badge-outline" href="{{ get_taxonomy_url(kind='tags', name=tag) }}">{{ tag }}</a></li>
+  {%- endfor %}
+</ul>
+{% endif %}
+{%- endcomponent ak.tags %}
+
+{% component ak.post_card(page) -%}
+<article class="card post-card"{% if page.extra.lang %} lang="{{ page.extra.lang }}"{% endif %}>
+  <h2 class="card-title"><a href="{{ page.permalink }}">{{ page.title }}</a></h2>
+  <p class="meta" lang="en">{{ <ak.date d={page.date} /> }} · {{ page.reading_time }} min read</p>
+  <p class="card-description">{{ page.description }}</p>
+  {{ <ak.tags page={page} /> }}
+</article>
+{%- endcomponent ak.post_card %}

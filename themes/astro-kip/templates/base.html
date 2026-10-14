@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="{{ config.default_language }}" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {#- Applies a stored light-mode choice before first paint; dark is the default. #}
+  <script>try{if(localStorage.getItem("theme")==="light")document.documentElement.classList.remove("dark")}catch(e){}</script>
+  {%- set page_url = current_url | default(value=config.base_url ~ "/") %}
+  {%- set meta_title = config.title %}
+  {%- set meta_desc = config.description %}
+  {%- if page is defined %}
+    {%- set meta_title = page.title ~ " · " ~ config.title %}
+    {%- set meta_desc = page.description or config.description %}
+  {%- elif term is defined %}
+    {%- set meta_title = "Tag: " ~ term.name ~ " · " ~ config.title %}
+    {%- set meta_desc = "Posts tagged “" ~ term.name ~ "” on " ~ config.title ~ "." %}
+  {%- elif terms is defined %}
+    {%- set meta_title = "Tags · " ~ config.title %}
+    {%- set meta_desc = "All tags used on " ~ config.title ~ "." %}
+  {%- elif section is defined and section.path != "/" and section.title %}
+    {%- set meta_title = section.title ~ " · " ~ config.title %}
+    {%- set meta_desc = section.description or config.description %}
+  {%- endif %}
+  <title>{% block title %}{{ meta_title }}{% endblock title %}</title>
+  <meta name="description" content="{{ meta_desc }}">
+  <link rel="canonical" href="{{ page_url }}">
+  <meta property="og:site_name" content="{{ config.title }}">
+  <meta property="og:type" content="{% block og_type %}website{% endblock og_type %}">
+  <meta property="og:title" content="{{ meta_title }}">
+  <meta property="og:description" content="{{ meta_desc }}">
+  <meta property="og:url" content="{{ page_url }}">
+  <meta property="og:image" content="{% block og_image %}{{ get_url(path=config.extra.social_image_default) }}{% endblock og_image %}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="author" content="{{ config.author }}">
+  {% block feed_link -%}
+  <link rel="alternate" type="application/atom+xml" title="{{ config.title }}" href="{{ get_url(path='atom.xml', trailing_slash=false) }}">
+  {%- endblock feed_link %}
+  <link rel="icon" href="{{ get_url(path='icons/favicon.svg') }}" type="image/svg+xml">
+  <link rel="icon" href="{{ get_url(path='icons/favicon-32.png') }}" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="{{ get_url(path='icons/apple-touch-icon.png') }}">
+  <link rel="stylesheet" href="{{ get_url(path='css/tokens.css') }}">
+  <link rel="stylesheet" href="{{ get_url(path='site.css') }}">
+  <script src="{{ get_url(path='js/theme-toggle.js') }}" defer></script>
+  {% block scripts %}{% endblock scripts %}
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  {%- set path = current_path | default(value="") %}
+  <header class="site-header">
+    <div class="container site-header-inner">
+      <a class="site-brand" href="{{ get_url(path='/', trailing_slash=true) }}">{{ config.title }}</a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="{{ get_url(path='/', trailing_slash=true) }}"{% if path == "/" or path is starting_with(pat="/page/") or path is starting_with(pat="/posts/") %} aria-current="page"{% endif %}>Posts</a></li>
+          <li><a href="{{ get_url(path='tags/', trailing_slash=true) }}"{% if path is starting_with(pat="/tags/") %} aria-current="page"{% endif %}>Tags</a></li>
+          <li><a href="{{ get_url(path='search/', trailing_slash=true) }}"{% if path is starting_with(pat="/search/") %} aria-current="page"{% endif %}>Search</a></li>
+          <li><a href="{{ get_url(path='about/', trailing_slash=true) }}"{% if path is starting_with(pat="/about/") %} aria-current="page"{% endif %}>About</a></li>
+        </ul>
+        <button type="button" class="btn btn-outline btn-icon theme-toggle" id="theme-toggle" aria-label="Switch to light mode" hidden>
+          <svg class="icon icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+          <svg class="icon icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="container" tabindex="-1">
+    {% block content %}{% endblock content %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer-inner">
+      <p>© {{ now() | date(format="%Y") }} {{ config.author }}</p>
+      <ul class="footer-links">
+        <li><a href="{{ config.extra.github }}" rel="me">GitHub</a></li>
+        <li><a href="{{ get_url(path='atom.xml', trailing_slash=false) }}">Feed</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>

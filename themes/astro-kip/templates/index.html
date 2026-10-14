@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="visually-hidden">{{ config.title }}: Posts</h1>
+{% if paginator.current_index == 1 and section.content %}
+<section class="intro" aria-label="Introduction">
+  {{ section.content | safe }}
+</section>
+{% endif %}
+
+<ol class="post-list">
+  {%- for p in paginator.pages %}
+  <li>{{ <ak.post_card page={p} /> }}</li>
+  {%- endfor %}
+</ol>
+
+{% if paginator.number_pagers > 1 %}
+<nav class="pagination" aria-label="Pagination">
+  {% if paginator.previous %}<a class="btn btn-outline" href="{{ paginator.previous }}" rel="prev">← Newer posts</a>{% else %}<span></span>{% endif %}
+  <span class="pagination-status">Page {{ paginator.current_index }} of {{ paginator.number_pagers }}</span>
+  {% if paginator.next %}<a class="btn btn-outline" href="{{ paginator.next }}" rel="next">Older posts →</a>{% else %}<span></span>{% endif %}
+</nav>
+{% endif %}
+{% endblock content %}

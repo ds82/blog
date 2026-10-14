@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Page not found · {{ config.title }}{% endblock title %}
+
+{% block content %}
+<article class="card surface not-found">
+  <h1>Page not found</h1>
+  <p>There is nothing at this address. It may have moved, or the link may be mistyped.</p>
+  <p><a class="btn btn-primary" href="{{ get_url(path='/', trailing_slash=true) }}">Go to the home page</a></p>
+</article>
+{% endblock content %}

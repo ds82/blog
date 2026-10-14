@@ -1,0 +1,89 @@
+// Code blocks and inline code.
+//
+// Highlighting uses Zola's Giallo in class mode with the placeholder-color
+// theme in highlight/astro-kip.json: class z-N is role N (design §6). The
+// generated giallo.css is never linked; colors come from tokens here, so they
+// follow the dark/light toggle. scripts/check.sh guards the numbering.
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+:not(pre) > code {
+  padding: 0.1em 0.35em;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background-color: var(--muted);
+}
+
+pre {
+  overflow-x: auto;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background-color: var(--muted);
+  color: var(--foreground);
+  line-height: 1.55;
+  tab-size: 4;
+}
+
+.dark pre {
+  background-color: var(--background);
+}
+
+pre code {
+  font-size: inherit;
+}
+
+// Required by Giallo for line wrappers and line numbers.
+.giallo-l {
+  display: inline-block;
+  min-height: 1lh;
+  width: 100%;
+}
+
+.giallo-ln {
+  display: inline-block;
+  user-select: none;
+  margin-right: 0.4em;
+  padding: 0.4em;
+  min-width: 3ch;
+  text-align: right;
+  color: var(--subtle);
+}
+
+pre mark {
+  display: block;
+  background-color: color-mix(in srgb, var(--primary) 15%, transparent);
+  color: inherit;
+}
+
+// Roles: 1 comment, 2 keyword, 3 string, 4 constant/number, 5 function, 6 type.
+.dark {
+  .z-1 { color: var(--subtle); }
+  .z-2 { color: var(--primary); }
+  .z-3 { color: var(--success); }
+  .z-4 { color: var(--chart-4); }
+  .z-5 { color: var(--chart-1); }
+  .z-6 { color: var(--accent-foreground); }
+}
+
+// Light: several tokens are too pale on the light code surface, so some roles
+// mix their token towards foreground to reach WCAG AA (design §6).
+:root:not(.dark) {
+  .z-1 { color: var(--subtle); }
+  .z-2 { color: var(--secondary); font-weight: 600; }
+  .z-3 { color: color-mix(in srgb, var(--success) 50%, var(--foreground)); }
+  .z-4 { color: color-mix(in srgb, var(--primary) 60%, var(--foreground)); }
+  .z-5 { color: var(--accent-foreground); }
+  .z-6 { color: var(--chart-5); }
+}
+
+.z-b { font-weight: 600; }
+.z-i { font-style: italic; }
+.z-u { text-decoration: underline; }
+.z-s { text-decoration: line-through; }

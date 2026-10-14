@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block feed_link -%}
+<link rel="alternate" type="application/atom+xml" title="{{ config.title }}: {{ term.name }}" href="{{ term.permalink }}atom.xml">
+{%- endblock feed_link %}
+
+{% block content %}
+<header class="page-header">
+  <h1 class="page-title">Tag: {{ term.name }}</h1>
+  <p class="page-subtitle">{{ term.page_count }} {% if term.page_count == 1 %}post{% else %}posts{% endif %} · <a href="{{ term.permalink }}atom.xml">Feed for this tag</a> · <a href="{{ get_url(path='tags/', trailing_slash=true) }}">All tags</a></p>
+</header>
+<ol class="post-list">
+  {%- for p in term.pages %}
+  <li>{{ <ak.post_card page={p} /> }}</li>
+  {%- endfor %}
+</ol>
+{% endblock content %}

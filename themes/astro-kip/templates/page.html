@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block og_type %}{% if page.date %}article{% else %}website{% endif %}{% endblock og_type %}
+{% block og_image %}{% if page.extra.social_image %}{{ page.permalink ~ page.extra.social_image }}{% else %}{{ get_url(path=config.extra.social_image_default) }}{% endif %}{% endblock og_image %}
+
+{% block content %}
+<article class="card surface post"{% if page.extra.lang %} lang="{{ page.extra.lang }}"{% endif %}>
+  <header class="post-header">
+    <h1>{{ page.title }}</h1>
+    {% if page.date %}
+    <p class="meta" lang="en">
+      {{ <ak.date d={page.date} /> }}
+      {%- if page.updated %} · Updated {{ <ak.date d={page.updated} /> }}{% endif %} · {{ page.reading_time }} min read
+    </p>
+    {{ <ak.tags page={page} /> }}
+    {% endif %}
+  </header>
+
+  {% if page.extra.toc and page.toc %}
+  <nav class="toc" aria-labelledby="toc-title" lang="en">
+    <h2 id="toc-title">Contents</h2>
+    <ol>
+      {%- for h in page.toc %}
+      <li><a href="#{{ h.id }}">{{ h.title }}</a>
+        {%- if h.children %}
+        <ol>
+          {%- for c in h.children %}
+          <li><a href="#{{ c.id }}">{{ c.title }}</a></li>
+          {%- endfor %}
+        </ol>
+        {%- endif %}
+      </li>
+      {%- endfor %}
+    </ol>
+  </nav>
+  {% endif %}
+
+  <div class="prose">
+    {{ page.content | safe }}
+  </div>
+</article>
+
+{#- In a date-sorted section, `higher` is the older Post and `lower` the newer one. #}
+{% if page.lower or page.higher %}
+<nav class="post-nav" aria-label="More posts">
+  {% if page.higher %}<a class="btn btn-outline post-nav-prev" href="{{ page.higher.permalink }}" rel="prev"><span class="post-nav-label">← Older</span> <span class="post-nav-title">{{ page.higher.title }}</span></a>{% else %}<span></span>{% endif %}
+  {% if page.lower %}<a class="btn btn-outline post-nav-next" href="{{ page.lower.permalink }}" rel="next"><span class="post-nav-label">Newer →</span> <span class="post-nav-title">{{ page.lower.title }}</span></a>{% else %}<span></span>{% endif %}
+</nav>
+{% endif %}
+{% endblock content %}

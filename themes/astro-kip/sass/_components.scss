@@ -1,0 +1,306 @@
+// Components after design-system docs/native-components.md
+// (card, badge, button, focus).
+
+// Card: card fill, 1px ring in foreground/10, radius xl, 16px padding.
+.card {
+  background-color: var(--card);
+  color: var(--card-foreground);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--foreground) 10%, transparent);
+  padding: 1rem;
+}
+
+// Reading surface for a whole post or page: a card with roomier padding.
+.surface {
+  padding: 1.25rem;
+}
+
+@media (min-width: 40rem) {
+  .surface {
+    padding: 2rem 2.5rem;
+  }
+}
+
+.card-title {
+  margin: 0 0 0.25rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.card-title a {
+  text-decoration: none;
+}
+
+.card-title a:hover {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.card-description {
+  margin: 0.5rem 0 0;
+  color: var(--card-foreground);
+}
+
+// Badge (outline): height 20, fully rounded, 8px padding, xs medium text.
+.badge {
+  display: inline-flex;
+  align-items: center;
+  height: 1.25rem;
+  padding-inline: 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.badge-outline {
+  border-color: var(--border);
+  color: var(--foreground);
+}
+
+a.badge-outline:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.dark a.badge-outline:hover {
+  background-color: color-mix(in srgb, var(--input) 50%, transparent);
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+// Button: radius lg, 1px border, sm medium text, height 32, 10px padding.
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  min-height: 2rem;
+  padding: 0.25rem 0.625rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg);
+  background: transparent;
+  color: var(--foreground);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.3;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:focus-visible {
+  outline: none;
+  border-color: var(--ring);
+  box-shadow: var(--focus-ring);
+}
+
+// outline: light background/border, hover muted; dark input/30, border input, hover input/50.
+.btn-outline {
+  background-color: var(--background);
+  border-color: var(--border);
+}
+
+.btn-outline:hover {
+  background-color: var(--muted);
+}
+
+.dark .btn-outline {
+  background-color: color-mix(in srgb, var(--input) 30%, transparent);
+  border-color: var(--input);
+}
+
+.dark .btn-outline:hover {
+  background-color: color-mix(in srgb, var(--input) 50%, transparent);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.btn-primary:hover {
+  background-color: color-mix(in srgb, var(--primary) 80%, transparent);
+}
+
+.btn-icon {
+  width: 2rem;
+  padding: 0;
+}
+
+.icon {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+// Theme toggle shows the mode it switches to.
+.theme-toggle .icon-moon {
+  display: none;
+}
+
+:root:not(.dark) .theme-toggle .icon-sun {
+  display: none;
+}
+
+:root:not(.dark) .theme-toggle .icon-moon {
+  display: block;
+}
+
+// Lists of post cards.
+.post-list {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.intro {
+  margin-bottom: 2rem;
+  font-size: 1.125rem;
+}
+
+.intro p {
+  margin: 0 0 0.75rem;
+}
+
+.intro a {
+  color: var(--link);
+  text-underline-offset: 0.2em;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.pagination-status {
+  font-size: 0.875rem;
+}
+
+// Post page.
+.post-header {
+  margin-bottom: 1.5rem;
+}
+
+.post-header h1 {
+  margin: 0 0 0.5rem;
+  font-size: 2rem;
+}
+
+.post-header .meta {
+  margin: 0;
+}
+
+.toc {
+  margin-bottom: 1.75rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  font-size: 0.9375rem;
+}
+
+.toc h2 {
+  margin: 0 0 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--subtle);
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.toc a {
+  color: var(--link);
+  text-underline-offset: 0.2em;
+}
+
+.post-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.post-nav .btn {
+  flex-direction: column;
+  align-items: flex-start;
+  height: auto;
+  padding: 0.625rem 0.75rem;
+}
+
+.post-nav-next {
+  grid-column: 2;
+  text-align: right;
+}
+
+.post-nav .post-nav-next {
+  align-items: flex-end;
+}
+
+.post-nav-label {
+  color: var(--subtle);
+  font-size: 0.75rem;
+}
+
+@media (max-width: 30rem) {
+  .post-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .post-nav-next {
+    grid-column: 1;
+  }
+}
+
+// Tags index.
+.tag-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag-index li {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.tag-count {
+  color: var(--subtle);
+  font-size: 0.875rem;
+}
+
+.not-found h1 {
+  margin-top: 0;
+}

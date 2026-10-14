@@ -1,0 +1,100 @@
+{
+  "name": "astro-kip",
+  "type": "dark",
+  "colors": {
+    "editor.background": "#000000",
+    "editor.foreground": "#000001"
+  },
+  "tokenColors": [
+    {
+      "name": "1 comment",
+      "scope": [
+        "comment",
+        "punctuation.definition.comment"
+      ],
+      "settings": {
+        "foreground": "#000002",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "plain operators and punctuation",
+      "scope": [
+        "keyword.operator",
+        "punctuation"
+      ],
+      "settings": {
+        "foreground": "#000001"
+      }
+    },
+    {
+      "name": "2 keyword",
+      "scope": [
+        "keyword",
+        "storage",
+        "storage.type",
+        "storage.modifier",
+        "keyword.operator.word",
+        "keyword.operator.new",
+        "keyword.control",
+        "variable.language"
+      ],
+      "settings": {
+        "foreground": "#000003"
+      }
+    },
+    {
+      "name": "3 string",
+      "scope": [
+        "string",
+        "string.quoted",
+        "punctuation.definition.string",
+        "constant.character.escape"
+      ],
+      "settings": {
+        "foreground": "#000004"
+      }
+    },
+    {
+      "name": "4 constant / number",
+      "scope": [
+        "constant",
+        "constant.numeric",
+        "constant.language",
+        "variable.other.constant",
+        "support.constant"
+      ],
+      "settings": {
+        "foreground": "#000005"
+      }
+    },
+    {
+      "name": "5 function",
+      "scope": [
+        "entity.name.function",
+        "support.function",
+        "meta.function-call entity.name.function",
+        "entity.name.function.macro"
+      ],
+      "settings": {
+        "foreground": "#000006"
+      }
+    },
+    {
+      "name": "6 type",
+      "scope": [
+        "entity.name.type",
+        "support.type",
+        "storage.type.primitive",
+        "storage.type.numeric",
+        "entity.name.type.primitive",
+        "entity.name.class",
+        "entity.name.struct",
+        "entity.other.inherited-class"
+      ],
+      "settings": {
+        "foreground": "#000007"
+      }
+    }
+  ]
+}
