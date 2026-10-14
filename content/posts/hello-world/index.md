@@ -17,10 +17,15 @@ This blog is a static site built with [Zola](https://www.getzola.org). This firs
 ## Why a static site
 
 A static site is a folder of files. Any web server can serve it, it has no database to patch, and it loads fast.
+I'm working with JS/SPA every day in my job and know the complexity very well and enjoy to not have to fiddle with JS on my own private blog.
 
 ### What Zola brings
 
 Zola is a single binary with templates, Sass, search indexes and feeds built in. There is no `node_modules` folder in sight.
+
+## Deployment
+
+The source of this blog lifes in a github repo and is served by github pages with a custom domain. Every push to `main` of this github repo triggers a github action that - on success - publishes a new version of this blog.
 
 ## Code
 
@@ -50,6 +55,10 @@ And a shell session with a deliberately long line that has to scroll inside its 
 zola build && python3 -m http.server --directory public 8000 # then open http://localhost:8000/ and check that every page, feed and search result loads
 ```
 
+## Theme
+
+The blog uses a custom theme (`astro-kip`) that built claude based on my design-system. It will be fine-tuned over time and published separately on my github.
+
 ## Everything else
 
 - A list item with `inline code`
@@ -58,7 +67,7 @@ zola build && python3 -m http.server --directory public 8000 # then open http://
 > A blockquote, for the occasional quote worth highlighting.
 
 | Element | Styled |
-|---------|--------|
+| ------- | ------ |
 | Tables  | yes    |
 | Images  | later  |
 
