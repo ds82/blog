@@ -1,0 +1,26 @@
+base_url = "https://blog.dennis.io"
+title = "blog.dennis.io"
+description = "Notes on software, self-hosting and whatever else Dennis is tinkering with."
+author = "Dennis Sänger"
+default_language = "en"
+theme = "astro-kip"
+
+# Feeds: one site-wide Atom feed with full content, plus one per tag.
+generate_feeds = true
+feed_filenames = ["atom.xml"]
+taxonomies = [{ name = "tags", feed = true }]
+
+[markdown]
+insert_anchor_links = "right"
+
+[markdown.highlighting]
+error_on_missing_language = true
+# Class mode with a placeholder-color theme; colors come from design tokens
+# in themes/astro-kip/sass/_code.scss (design §6).
+style = "class"
+theme = "astro-kip"
+extra_themes = ["themes/astro-kip/highlight/astro-kip.json"]
+
+[extra]
+github = "https://github.com/ds82"
+social_image_default = "icons/social-default.png"
