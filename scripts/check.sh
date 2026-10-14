@@ -144,6 +144,8 @@ FEED="$PUBLIC/atom.xml"
 assert_file "$FEED"
 if command -v xmllint >/dev/null; then
   xmllint --noout "$FEED" 2>/dev/null || fail "$FEED is not well-formed XML"
+else
+  echo "note: xmllint not found, skipping the Feed XML check" >&2
 fi
 assert_contains "$HOME_HTML" '<link rel="alternate" type="application/atom+xml" title="blog.dennis.io" href="'"$BASE"'/atom.xml">' "no Feed autodiscovery link"
 assert_contains "$FEED" '<name>Dennis Sänger</name>' "Feed author is not Dennis Sänger"
