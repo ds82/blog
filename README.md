@@ -35,12 +35,45 @@ Run `scripts/check.sh` before publishing. It checks, among other things:
 
 ## Deploying
 
-`public/` is the whole site. Serve it with any static web server and configure
-`404.html` as the error page (e.g. nginx `error_page 404 /404.html;`). All URLs are absolute
-on `https://blog.dennis.io`. To test the built folder locally, build it for the local address:
+Every push to `main` publishes the site to GitHub Pages at <https://blog.dennis.io>, through
+`.github/workflows/pages.yml`. The workflow:
+
+1. installs the pinned Zola (the download is checked against `ZOLA_SHA256`)
+2. runs `scripts/check.sh`, which builds the site and checks it
+3. deploys `public/`
+
+If the build or any check fails, nothing is deployed and the previous version stays live. You can
+also start a run by hand, from the Actions tab or with `gh workflow run pages.yml`. Pushes to other
+branches never publish.
+
+To follow the runs:
 
 ```sh
-zola build --base-url http://localhost:8000 && python3 -m http.server --directory public 8000
+gh run list --workflow pages.yml   # recent runs and their status
+gh run watch                       # follow the run that is in progress
+```
+
+**Upgrading Zola** means changing `ZOLA_VERSION` and `ZOLA_SHA256` in the workflow (the sha256
+is listed with each asset on the GitHub release page) and the pin under *Requirements*,
+all in the same commit.
+
+### One-time setup
+
+- GitHub repo → Settings → Pages: Source **GitHub Actions**, custom domain `blog.dennis.io`,
+  **Enforce HTTPS** on.
+- DNS for `dennis.io`: `blog.dennis.io  CNAME  ds82.github.io.`, plus the TXT record from
+  GitHub account settings → Pages → *Verified domains*, so no other account can claim the
+  subdomain.
+
+GitHub serves `404.html` for unknown paths and redirects HTTP to HTTPS on its own.
+
+### Testing the built folder locally
+
+All URLs are absolute on `base_url`. To serve `public/` locally, build it for the address
+your browser uses, e.g. `127.0.0.1` through an SSH tunnel:
+
+```sh
+zola build --base-url http://127.0.0.1:8000 && python3 -m http.server --directory public --bind 127.0.0.1 8000
 ```
 
 ## Writing a Post
