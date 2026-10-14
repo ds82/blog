@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
-# Builds the site and asserts on the output in public/ and on the sources in content/.
+# Builds the site into public/ and checks it, then builds the fixture site in
+# tests/site/ (same config and theme, fixed example content) and checks the
+# features against that. Real Posts can change freely; the fixtures cannot.
 # Usage: scripts/check.sh   (exits non-zero and lists every failed assertion)
 set -uo pipefail
 
 cd "$(dirname "$0")/.."
-PUBLIC=public
+FIXTURE_ROOT=tests/site
+work=$(mktemp -d)
+trap 'rm -rf "$work"' EXIT
+PUBLIC="$work/public"
 failures=0
 
 fail() {
@@ -40,15 +45,53 @@ assert_matches() {
   grep -qE -- "$2" "$1" || fail "${3:-$1 does not match: $2}"
 }
 
-echo "Building site..."
-if ! build_log=$(zola build 2>&1); then
-  echo "$build_log" >&2
-  echo "FAIL: zola build failed" >&2
-  exit 1
+# build <label> <zola args...>: exits on a failed build
+build() {
+  local label=$1 log
+  shift
+  echo "Building $label..."
+  if ! log=$(zola "$@" 2>&1); then
+    echo "$log" >&2
+    echo "FAIL: zola build of $label failed" >&2
+    exit 1
+  fi
+}
+
+build "site" build
+build "fixture site" --root "$FIXTURE_ROOT" build --output-dir "$PUBLIC"
+
+# --- Real site (public/) ------------------------------------------------------
+# Only checks that hold whatever the Posts are; features are checked on the fixtures below.
+BASE="https://blog.dennis.io"
+assert_file public/index.html
+assert_file public/404.html
+assert_file public/atom.xml
+assert_file public/search_index.en.json
+for f in public/index.html public/404.html public/atom.xml; do
+  assert_contains "$f" 'Dennis Sänger'
+done
+for post in content/posts/*/index.md content/posts/*.md; do
+  [[ -f "$post" ]] || continue
+  [[ "$(basename "$post")" == "_index.md" ]] && continue
+  slug=$(basename "${post%/index.md}" .md)
+  if awk '/^\+\+\+$/ { n++; next } n == 1' "$post" | grep -qE '^draft[[:space:]]*=[[:space:]]*true'; then
+    assert_no_file "public/posts/$slug/index.html"
+    for f in public/index.html public/atom.xml public/search_index.en.json public/sitemap.xml; do
+      assert_not_contains "$f" "/posts/$slug/" "Draft $slug leaked into $f"
+    done
+  else
+    assert_file "public/posts/$slug/index.html"
+  fi
+done
+foreign=$(grep -rhoE '<(link|script|img|source|iframe)[^>]*(href|src)="(https?:)?//[^"]+"' public --include='*.html' \
+  | grep -vE '(href|src)="https?://blog\.dennis\.io/' \
+  | grep -vE 'rel="(me|external)"' || true)
+[[ -z "$foreign" ]] || fail "public/ loads assets from other hosts: $foreign"
+if command -v xmllint >/dev/null; then
+  xmllint --noout public/atom.xml 2>/dev/null || fail "public/atom.xml is not well-formed XML"
 fi
 
-# --- Build output -----------------------------------------------------------
-BASE="https://blog.dennis.io"
+# --- Fixture site: build output -------------------------------------------------
 HOME_HTML="$PUBLIC/index.html"
 EN_POST="$PUBLIC/posts/hello-world/index.html"
 DE_POST="$PUBLIC/posts/steuererklaerung-automatisieren/index.html"
@@ -58,8 +101,8 @@ SITE_DESCRIPTION=$(sed -n 's/^description = "\(.*\)"$/\1/p' zola.toml | head -1)
 assert_file "$HOME_HTML"
 assert_file "$PUBLIC/404.html"
 
-# --- Description required on every Post (content/) -----------------------------
-for post in content/posts/*/index.md content/posts/*.md; do
+# --- Description required on every Post (content/ and the fixtures) ---------------
+for post in content/posts/*/index.md content/posts/*.md "$FIXTURE_ROOT"/content/posts/*/index.md; do
   [[ -f "$post" ]] || continue
   [[ "$(basename "$post")" == "_index.md" ]] && continue
   front=$(awk '/^\+\+\+$/ { n++; next } n == 1' "$post")

@@ -33,6 +33,13 @@ Run `scripts/check.sh` before publishing. It checks, among other things:
 - no asset loads from another host
 - the code-highlighting class numbering hasn't shifted
 
+The feature checks (ordering, prev/next, German marking, Feed content, Social images …) run
+against a second build of the fixture site in `tests/site/`. It uses the same `zola.toml` and
+theme (through symlinks) but has its own fixed example content, so the real Posts in `content/` can
+be edited, drafted or deleted without breaking the checks. The real build in `public/` gets
+only checks that hold for any content. Change `tests/site/content/` only together with the
+assertions in `scripts/check.sh`.
+
 ## Deploying
 
 Every push to `main` publishes the site to GitHub Pages at <https://blog.dennis.io>, through
