@@ -10,6 +10,8 @@ generate_feeds = true
 feed_filenames = ["atom.xml"]
 taxonomies = [{ name = "tags", feed = true }]
 
+build_search_index = true
+
 [markdown]
 insert_anchor_links = "right"
 
@@ -20,6 +22,12 @@ error_on_missing_language = true
 style = "class"
 theme = "astro-kip"
 extra_themes = ["themes/astro-kip/highlight/astro-kip.json"]
+
+[search]
+index_format = "elasticlunr_json"
+include_title = true
+include_description = true
+include_content = true
 
 [extra]
 github = "https://github.com/ds82"

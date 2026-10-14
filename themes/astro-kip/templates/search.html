@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block scripts %}
+<script src="{{ get_url(path='js/search.js') }}" defer
+  data-index="{{ get_url(path='search_index.' ~ config.default_language ~ '.json', trailing_slash=false) }}"
+  data-elasticlunr="{{ get_url(path='elasticlunr.min.js', trailing_slash=false) }}"></script>
+{% endblock scripts %}
+
+{% block content %}
+<header class="page-header">
+  <h1 class="page-title">{{ page.title }}</h1>
+</header>
+
+<form class="search-form" role="search" action="" method="get">
+  <label for="search-input">Search posts</label>
+  <input class="search-input" id="search-input" name="q" type="search" autocomplete="off" spellcheck="false"
+    placeholder="e.g. zola, rust, self-hosting" aria-describedby="search-status">
+</form>
+
+<p class="search-status meta" id="search-status" role="status" aria-live="polite"></p>
+<ol class="post-list" id="search-results"></ol>
+
+<noscript>
+  <p class="search-noscript">Search needs JavaScript. You can browse posts by topic on the <a href="{{ get_url(path='tags/', trailing_slash=true) }}">tags page</a> instead.</p>
+</noscript>
+{% endblock content %}
